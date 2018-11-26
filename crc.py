@@ -2,8 +2,8 @@ import zlib
 import random
 import string
 lists = []
-N = 9
-target = "hellofuck"
+N = 4
+target = "hell"
 read = "a" * N
 for i in range(160):
     ss =''.join(random.choice(string.ascii_lowercase) for _ in range(N))
@@ -26,7 +26,6 @@ def fuck(ss):
 read_sum = fuck(read)
 base2 = [(fuck(ss) ^ read_sum, crc^read_crc) for ss, crc in base]
 
-# the_sum, the_crc = fuck(target, target_crc)
 the_sum = 0
 the_crc = target_crc
 
