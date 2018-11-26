@@ -15,16 +15,16 @@ for ss in lists:
 
 read_crc = zlib.crc32(read.encode())
 target_crc = zlib.crc32(target.encode())
-target_crc = target_crc ^ read_crc
+target_crc ^= read_crc
 
-def fuck(ss):
+def str2int(ss):
     sum = 0
     for ch in ss:
         sum *= 256
         sum += ord(ch)
     return sum
-read_sum = fuck(read)
-base2 = [(fuck(ss) ^ read_sum, crc^read_crc) for ss, crc in base]
+read_sum = str2int(read)
+base2 = [(str2int(ss) ^ read_sum, crc^read_crc) for ss, crc in base]
 
 the_sum = 0
 the_crc = target_crc
@@ -42,9 +42,9 @@ while the_crc != 0:
     newlists = []
     for sum, crc in lists:
         if crc % 2 == 1:
-            sum = sum ^ ss
-            crc = crc ^ cc
-        crc = crc >> 1
+            sum ^= ss
+            crc ^= cc
+        crc >>= 1
         if crc != 0:
             newlists += [(sum, crc)]
         elif sum != 0:
@@ -55,14 +55,14 @@ while the_crc != 0:
     if the_crc % 2 == 1:
         if cc == None:
             print("fuck!!")
-        the_sum = the_sum ^ ss
-        the_crc = the_crc ^ cc
-    the_crc = the_crc >> 1
+        the_sum ^= ss
+        the_crc ^= cc
+    the_crc >>= 1
 sss = ''
 
-the_sum = the_sum ^ read_sum
+the_sum ^= read_sum
 for i in range(N):
     sss += chr((the_sum % 256))
-    the_sum = the_sum // 256
+    the_sum //= 256
 
 print(sss[::-1])
