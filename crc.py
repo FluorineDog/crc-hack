@@ -1,12 +1,6 @@
-import random
-import string
 lists = []
 N = 8
 target = "hellfuck"
-for i in range(160):
-    ss =''.join(random.choice(string.ascii_lowercase) for _ in range(N))
-    lists += [ss]
-
 base = []
 ff = open("hash.txt")
 for line in ff.read().splitlines():
