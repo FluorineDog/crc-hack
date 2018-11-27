@@ -1,21 +1,26 @@
-import zlib
 import random
 import string
 lists = []
-N = 4
-target = "hell"
-read = "a" * N
+N = 8
+target = "hellfuck"
 for i in range(160):
     ss =''.join(random.choice(string.ascii_lowercase) for _ in range(N))
     lists += [ss]
 
 base = []
-for ss in lists:
-    base += [(ss, zlib.crc32(ss.encode()))]
+ff = open("hash.txt")
+for line in ff.read().splitlines():
+    sp = line.split(" ")
+    crc = sp[0]
+    ss = " ".join(sp[1:])
+    if len(ss) != 8: 
+        print("!!!!!!!", len(ss))
+    crc = int(crc, 16)
+    # print(crc, ' -> ' , ss)
+    base += [(ss, crc)]
 
-read_crc = zlib.crc32(read.encode())
-target_crc = zlib.crc32(target.encode())
-target_crc ^= read_crc
+# target_crc = zlib.crc32(target.encode())
+# exit()
 
 def str2int(ss):
     sum = 0
@@ -23,11 +28,10 @@ def str2int(ss):
         sum *= 256
         sum += ord(ch)
     return sum
-read_sum = str2int(read)
-base2 = [(str2int(ss) ^ read_sum, crc^read_crc) for ss, crc in base]
+base2 = [(str2int(ss), crc) for ss, crc in base]
 
 the_sum = 0
-the_crc = target_crc
+the_crc = 0x09209ac5b5e2365e
 
 lists = base2.copy()
 while the_crc != 0:
@@ -60,7 +64,6 @@ while the_crc != 0:
     the_crc >>= 1
 sss = ''
 
-the_sum ^= read_sum
 for i in range(N):
     sss += chr((the_sum % 256))
     the_sum //= 256
