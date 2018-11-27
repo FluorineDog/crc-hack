@@ -25,7 +25,7 @@ def str2int(ss):
 base2 = [(str2int(ss), crc) for ss, crc in base]
 
 the_sum = 0
-the_crc = 0x09209ac5b5e2365e
+the_crc = 0x5F695F6C676F5F67
 
 lists = base2.copy()
 while the_crc != 0:
