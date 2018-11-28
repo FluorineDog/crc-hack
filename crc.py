@@ -1,6 +1,5 @@
 lists = []
 N = 8
-target = "hellfuck"
 base = []
 ff = open("hash.txt")
 for line in ff.read().splitlines():
